@@ -5,7 +5,8 @@ using UnityEngine;
 public class EnemyPathfinding : MonoBehaviour {
     
     //Enemy Stats
-    public float Speed = 1;
+    public float MoveSpeed = 1;
+    public float TurnSpeed = 90;
 
     //Moving Stuff
     private enum EnemyStates { NewTile, Moving, Finished }
@@ -17,13 +18,14 @@ public class EnemyPathfinding : MonoBehaviour {
     private int CurrentTile;
     private int TargetTile;
     private Vector3 TargetTilePosition;
-
+    
     [SerializeField] LevelManager LM;
     
 
 	// Use this for initialization
 	void Start ()
     {
+        LM = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         CurrentTile = LM.StartingTile;
 	}
 	
@@ -46,20 +48,20 @@ public class EnemyPathfinding : MonoBehaviour {
                 break;
 
             case EnemyStates.Moving:
-                gameObject.transform.position = Vector3.MoveTowards(transform.position, TargetTilePosition, Speed/10);
+                gameObject.transform.position = Vector3.MoveTowards(transform.position, TargetTilePosition, MoveSpeed*Time.deltaTime);
                 switch(DesiredDirection)
                 {
                     case Directions.up:
-                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, 0), 10);
+                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, 0), TurnSpeed*Time.deltaTime);
                         break;
                     case Directions.down:
-                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 180, 0), 10);
+                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 180, 0), TurnSpeed*Time.deltaTime);
                         break;
                     case Directions.right:
-                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 90, 0), 10);
+                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 90, 0), TurnSpeed*Time.deltaTime);
                         break;
                     case Directions.left:
-                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 270, 0), 10);
+                        gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 270, 0), TurnSpeed*Time.deltaTime);
                         break;
                 }
                 if(transform.position == TargetTilePosition)
