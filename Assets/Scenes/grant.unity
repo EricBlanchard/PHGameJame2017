@@ -3316,7 +3316,7 @@ GameObject:
   - component: {fileID: 939439415}
   - component: {fileID: 939439414}
   m_Layer: 0
-  m_Name: PathManager
+  m_Name: LevelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3330,7 +3330,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 939439413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcf5d85b473d6d84c8da4689fa186ee4, type: 3}
+  m_Script: {fileID: 11500000, guid: 21514620a2e772a4195b76c8e5e27c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   StartingTile: 0
@@ -6307,7 +6307,7 @@ GameObject:
   - component: {fileID: 1961490401}
   - component: {fileID: 1961490405}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6391,7 +6391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1
-  PM: {fileID: 939439414}
+  LM: {fileID: 939439414}
 --- !u!1 &2013354386
 GameObject:
   m_ObjectHideFlags: 0

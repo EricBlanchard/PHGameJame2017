@@ -18,13 +18,13 @@ public class EnemyPathfinding : MonoBehaviour {
     private int TargetTile;
     private Vector3 TargetTilePosition;
 
-    [SerializeField] PathManager PM;
+    [SerializeField] LevelManager LM;
     
 
 	// Use this for initialization
 	void Start ()
     {
-        CurrentTile = PM.StartingTile;
+        CurrentTile = LM.StartingTile;
 	}
 	
 	// Update is called once per frame
@@ -33,13 +33,13 @@ public class EnemyPathfinding : MonoBehaviour {
 		switch(State)
         {
             case EnemyStates.NewTile:
-                if(CurrentStep == PM.LevelPath.Count)
+                if(CurrentStep == LM.LevelPath.Count)
                 {
                     State = EnemyStates.Finished;
                     break;
                 }
-                TargetTile = int.Parse(PM.LevelPath[CurrentStep].name);
-                TargetTilePosition = PM.LevelPath[CurrentStep].position + new Vector3(0, transform.localScale.y, 0);
+                TargetTile = int.Parse(LM.LevelPath[CurrentStep].name);
+                TargetTilePosition = LM.LevelPath[CurrentStep].position + new Vector3(0, transform.localScale.y, 0);
                 DesiredDirection = CalculateTurnDirection();
                 CurrentStep++;
                 State = EnemyStates.Moving;
