@@ -16,21 +16,22 @@ public class PlayerDino : MonoBehaviour {
 
     public void Move(Vector3 destination)
     {
+        agent.SetDestination(destination);
         flag.SetActive(true);
         flag.transform.position = destination;
-        flag.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        agent.SetDestination(destination);
+        flag.transform.position = new Vector3(flag.transform.position.x, 0, flag.transform.position.z);      
     }
 
     public void Selected()
     {
         if (!agent.isStopped)
         {
+            flag.transform.position = agent.destination;
             flag.SetActive(true);
         }
     }
 
-    private void UnSelected()
+    public void UnSelected()
     {
         flag.SetActive(false);
     }

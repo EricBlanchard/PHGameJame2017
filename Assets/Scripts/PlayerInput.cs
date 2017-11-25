@@ -17,8 +17,8 @@ public class PlayerInput : Singleton<PlayerInput> {
             case EGAMESTATE.PLAYING_LEVEL:
                 UpdatePlayingLevel();
                 break;
-            case EGAMESTATE.DINO_SELECTED:
-                UpdateDinoSelected();
+            case EGAMESTATE.PLAYER_DINO_SELECTED:
+                UpdatePlayerDinoSelected();
                 break;
             default:
                 break;
@@ -37,7 +37,7 @@ public class PlayerInput : Singleton<PlayerInput> {
                 {                  
                     if (hit.transform.gameObject.GetComponent<PlayerDino>())
                     {
-                        gameState = EGAMESTATE.DINO_SELECTED;
+                        gameState = EGAMESTATE.PLAYER_DINO_SELECTED;
                         selectedDino = hit.transform.gameObject.GetComponent<PlayerDino>();
                         selectedDino.Selected();
                     }
@@ -46,7 +46,7 @@ public class PlayerInput : Singleton<PlayerInput> {
         }
     }
 
-    void UpdateDinoSelected()
+    void UpdatePlayerDinoSelected()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -58,9 +58,18 @@ public class PlayerInput : Singleton<PlayerInput> {
                 {
                     if (selectedDino.GetComponent<PlayerDino>())
                     {
-                        selectedDino.GetComponent<PlayerDino>().Move(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                        selectedDino.GetComponent<PlayerDino>().Move(hit.point);
                     }
                 }
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (selectedDino)
+            {
+                gameState = EGAMESTATE.PLAYING_LEVEL;
+                selectedDino.UnSelected();
+                selectedDino = null;
             }
         }
     }
