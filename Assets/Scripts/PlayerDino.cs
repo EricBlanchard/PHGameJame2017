@@ -8,6 +8,7 @@ public class PlayerDino : MonoBehaviour {
 
     public GameObject flag;
     NavMeshAgent agent;
+    EPLAYERDINOSTATE dinoState = EPLAYERDINOSTATE.IDLE;
 
     private void Start()
     {
@@ -18,14 +19,14 @@ public class PlayerDino : MonoBehaviour {
     {
         agent.SetDestination(destination);
         flag.SetActive(true);
-        flag.transform.position = destination;
-        flag.transform.position = new Vector3(flag.transform.position.x, 0, flag.transform.position.z);      
+        flag.transform.position = destination;  
     }
 
     public void Selected()
     {
         if (!agent.isStopped)
         {
+            //TODO:  Enable UI (Portait, menu options etc.)
             flag.transform.position = agent.destination;
             flag.SetActive(true);
         }
@@ -44,4 +45,5 @@ public class PlayerDino : MonoBehaviour {
             flag.SetActive(false);
         }
     }
+    
 }
