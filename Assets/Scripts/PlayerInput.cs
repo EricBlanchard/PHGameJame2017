@@ -47,5 +47,20 @@ public class PlayerInput : Singleton<PlayerInput> {
 
     void UpdateDinoSelected()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit = new RaycastHit();
+            bool isHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
+            if (isHit)
+            {
+                if (hit.transform.gameObject.tag == "Ground")
+                {
+                    if (selectedDino.GetComponent<PlayerDino>())
+                    {
+                        selectedDino.GetComponent<PlayerDino>().Move(Input.mousePosition);
+                    }
+                }
+            }
+        }
     }
 }
