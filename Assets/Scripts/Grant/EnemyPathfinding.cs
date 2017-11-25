@@ -44,6 +44,7 @@ public class EnemyPathfinding : MonoBehaviour {
                 CurrentStep++;
                 State = EnemyStates.Moving;
                 break;
+
             case EnemyStates.Moving:
                 gameObject.transform.position = Vector3.MoveTowards(transform.position, TargetTilePosition, Speed/10);
                 switch(DesiredDirection)
@@ -67,6 +68,7 @@ public class EnemyPathfinding : MonoBehaviour {
                     State = EnemyStates.NewTile;
                 }
                 break;
+
             case EnemyStates.Finished:
                 break;
         }
