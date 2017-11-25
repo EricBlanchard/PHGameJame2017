@@ -7,6 +7,7 @@ TagManager:
   - Dinosaur
   - PlayerDinosaur
   - Ground
+  - Flag
   layers:
   - Default
   - TransparentFX

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class PlayerDino : MonoBehaviour {
 
-	
+    public Transform destination;
 }

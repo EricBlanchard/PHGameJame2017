@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
 
+    public GameObject flagPrefab;
+
+
 	// Use this for initialization
 	void Start () {
 		
