@@ -39,6 +39,7 @@ public class PlayerInput : Singleton<PlayerInput> {
                     {
                         gameState = EGAMESTATE.DINO_SELECTED;
                         selectedDino = hit.transform.gameObject.GetComponent<PlayerDino>();
+                        selectedDino.Selected();
                     }
                 }
             }
@@ -57,7 +58,7 @@ public class PlayerInput : Singleton<PlayerInput> {
                 {
                     if (selectedDino.GetComponent<PlayerDino>())
                     {
-                        selectedDino.GetComponent<PlayerDino>().Move(Input.mousePosition);
+                        selectedDino.GetComponent<PlayerDino>().Move(Camera.main.ScreenToWorldPoint(Input.mousePosition));
                     }
                 }
             }
