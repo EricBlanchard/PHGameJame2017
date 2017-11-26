@@ -6,10 +6,13 @@ public class EnemyPathfinding : MonoBehaviour {
     
     //Enemy Stats
     public float MoveSpeed = 1;
-    public float TurnSpeed = 90;
+    public float TurnSpeed = 720;
+    public float BaseHealth = 100;
+    public float CurrentHealth = 100;
+    public float TotalHealth = 100;
 
     //Moving Stuff
-    private enum EnemyStates { NewTile, Moving, Finished }
+    private enum EnemyStates { NewTile, Moving, Finished, Dead, GameOver }
     private enum Directions { up, down, left, right }
     private EnemyStates State = EnemyStates.NewTile;
     private Directions DesiredDirection = Directions.down;
@@ -20,12 +23,17 @@ public class EnemyPathfinding : MonoBehaviour {
     private Vector3 TargetTilePosition;
     
     [SerializeField] LevelManager LM;
-    
+
+    //Scaling
+
+    [SerializeField] LevelProgression LP;
 
 	// Use this for initialization
 	void Start ()
     {
         LM = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        LP = GameObject.Find("LevelManager").GetComponent<LevelProgression>();
+        //LP.ScaleNextWave += GetWaveScaling;
         CurrentTile = LM.StartingTile;
 	}
 	
@@ -72,6 +80,16 @@ public class EnemyPathfinding : MonoBehaviour {
                 break;
 
             case EnemyStates.Finished:
+                LM.TakeDamage();
+                State = EnemyStates.Dead;
+                break;
+
+            case EnemyStates.Dead:
+                //TODO dead stuff
+                Destroy(this.gameObject);
+                break;
+
+            case EnemyStates.GameOver:
                 break;
         }
 	}
@@ -100,5 +118,24 @@ public class EnemyPathfinding : MonoBehaviour {
                 return Directions.left;
             }
         }
+    }
+
+    void GetWaveScaling(float Difficulty)
+    {
+
+    }
+
+    public void TakeDamage(float DamageTaken)
+    {
+        CurrentHealth -= DamageTaken;
+        if(CurrentHealth <= 0)
+        {
+            State = EnemyStates.Dead;
+        }
+    }
+
+    public void GameOver()
+    {
+        State = EnemyStates.GameOver;
     }
 }

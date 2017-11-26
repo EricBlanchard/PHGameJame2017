@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
 
+    //Pathfinding
     [Tooltip("Starting tile name as an int/string")]
     public int StartingTile = 0;
     [Tooltip("Size = number of stops in the path")]
     public List<Transform> LevelPath;
-    [Tooltip("Put the enemy prefabs here")]
-    public List<GameObject> ListOfEnemies;
-    public List<int> NumOfEachEnemy;
 
+    //Enemy Lists
+    [Tooltip("Put the enemy prefabs here")]
+    public List<GameObject> ListOfEnemyTypes;
+    public List<int> NumOfEachEnemy;
+    [SerializeField] private List<GameObject> ListOfSpawnedEnemies;
+
+    //Spawning
     [Tooltip("Time between each enemy spawn")]
     [SerializeField] private float SpawnDelay;
     private float SpawnTimer;
@@ -19,8 +24,12 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private float StartingRotation;
     [SerializeField] Transform SpawnPoint;
 
-    private enum LevelStates { Spawning, WaitingForNextSpawn, Finished }
+    //Game State
+    private enum LevelStates { Spawning, WaitingForNextSpawn, FinishedSpawning, LevelComplete, LevelLost }
     LevelStates State;
+
+    [SerializeField] private float PlayerHealth = 3;
+
 
     void Start()
     {
@@ -29,7 +38,7 @@ public class LevelManager : MonoBehaviour {
         {
             Debug.Log("Level Path not set correctly");
         }
-        if(ListOfEnemies.Count != NumOfEachEnemy.Count) //Check enemies
+        if(ListOfEnemyTypes.Count != NumOfEachEnemy.Count) //Check enemies
         {
             Debug.Log("Enemy List not set correctly");
         }
@@ -38,6 +47,8 @@ public class LevelManager : MonoBehaviour {
         {
             State = LevelStates.Spawning;
         }
+
+        ListOfSpawnedEnemies = new List<GameObject>(50);
     }
 
     // Update is called once per frame
@@ -46,18 +57,18 @@ public class LevelManager : MonoBehaviour {
         switch(State)
         {
             case LevelStates.Spawning:
-                int RandNum = Mathf.FloorToInt(Random.Range(0, ListOfEnemies.Count - 0.001f)); //Pick a random number
-                Instantiate(ListOfEnemies[RandNum], SpawnPoint.position, Quaternion.Euler(0, StartingRotation, 0)); //Spawn based on random number
+                int RandNum = Mathf.FloorToInt(Random.Range(0, ListOfEnemyTypes.Count - 0.001f)); //Pick a random number
+                ListOfSpawnedEnemies.Add(Instantiate(ListOfEnemyTypes[RandNum], SpawnPoint.position, Quaternion.Euler(0, StartingRotation, 0))); //Spawn based on random number
                 NumOfEachEnemy[RandNum] -= 1; //Decrease number of that enemy type
                 if(NumOfEachEnemy[RandNum] <= 0) //Check if enemy type is finished spawning
                 {
                     NumOfEachEnemy.RemoveAt(RandNum);
-                    ListOfEnemies.RemoveAt(RandNum);
+                    ListOfEnemyTypes.RemoveAt(RandNum);
                 }
                 SpawnTimer = 0; //Reset spawn timer
-                if (ListOfEnemies.Count <= 0) //Check if wave is done && change state
+                if (ListOfEnemyTypes.Count <= 0) //Check if wave is done && change state
                 {
-                    State = LevelStates.Finished;
+                    State = LevelStates.FinishedSpawning;
                 }
                 else
                 {
@@ -73,8 +84,34 @@ public class LevelManager : MonoBehaviour {
                 }
                 break;
 
-            case LevelStates.Finished:
+            case LevelStates.FinishedSpawning:
+                if(ListOfSpawnedEnemies.Count <= 0)
+                {
+                    State = LevelStates.LevelComplete;
+                }
                 break;
+
+            case LevelStates.LevelComplete:
+                //TODO Level win stuff
+                break;
+
+            case LevelStates.LevelLost:
+                foreach(GameObject Enemy in ListOfSpawnedEnemies)
+                {
+                    Enemy.GetComponent<EnemyPathfinding>().GameOver();
+                }
+                break;
+        }
+    }
+
+    public void TakeDamage()
+    {
+        PlayerHealth--;
+        if(PlayerHealth <0)
+        {
+            //TODO GAMEOVER
+            Debug.Log("GAME OVER");
+            State = LevelStates.LevelLost;
         }
     }
 }
