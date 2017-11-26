@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 60595518d5c28e4428c31db12410c380
+timeCreated: 1511634104
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Prehistoric Caveman
+  fontNames:
+  - Prehistoric Caveman
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
