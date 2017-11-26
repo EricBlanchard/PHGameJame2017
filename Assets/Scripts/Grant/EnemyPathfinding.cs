@@ -14,7 +14,7 @@ public class EnemyPathfinding : MonoBehaviour {
     //Moving Stuff
     private enum EnemyStates { NewTile, Moving, Finished, Dead, GameOver }
     private enum Directions { up, down, left, right }
-    private EnemyStates State = EnemyStates.NewTile;
+    [SerializeField] private EnemyStates State = EnemyStates.NewTile;
     private Directions DesiredDirection = Directions.down;
 
     private int CurrentStep = 0;
@@ -25,15 +25,13 @@ public class EnemyPathfinding : MonoBehaviour {
     [SerializeField] LevelManager LM;
 
     //Scaling
-
-    [SerializeField] LevelProgression LP;
+        
 
 	// Use this for initialization
 	void Start ()
     {
         LM = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        LP = GameObject.Find("LevelManager").GetComponent<LevelProgression>();
-        //LP.ScaleNextWave += GetWaveScaling;
+        //LP.ScaleNextWave += GetWaveScaling; //So Justin can see I tried ):
         CurrentTile = LM.StartingTile;
 	}
 	
@@ -86,6 +84,7 @@ public class EnemyPathfinding : MonoBehaviour {
 
             case EnemyStates.Dead:
                 //TODO dead stuff
+                LM.RemoveDeadEnemy(this.gameObject);
                 Destroy(this.gameObject);
                 break;
 
@@ -137,5 +136,6 @@ public class EnemyPathfinding : MonoBehaviour {
     public void GameOver()
     {
         State = EnemyStates.GameOver;
+
     }
 }

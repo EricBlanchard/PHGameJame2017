@@ -68,7 +68,6 @@ public class LevelProgression : MonoBehaviour {
 			m_ScaleNextWave(currentWaveDifficulty);
 		}
 	}
-
 	
 	// Use this for initialization
 	void Start () {

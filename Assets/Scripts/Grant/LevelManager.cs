@@ -26,7 +26,9 @@ public class LevelManager : MonoBehaviour {
 
     //Game State
     private enum LevelStates { Spawning, WaitingForNextSpawn, FinishedSpawning, LevelComplete, LevelLost }
-    LevelStates State;
+    [SerializeField] LevelStates State;
+
+    [SerializeField] int CurrentLevel = 1;
 
     [SerializeField] private float PlayerHealth = 3;
 
@@ -107,11 +109,16 @@ public class LevelManager : MonoBehaviour {
     public void TakeDamage()
     {
         PlayerHealth--;
-        if(PlayerHealth <0)
+        if(PlayerHealth <= 0)
         {
             //TODO GAMEOVER
             Debug.Log("GAME OVER");
             State = LevelStates.LevelLost;
         }
+    }
+
+    public void RemoveDeadEnemy(GameObject Enemy)
+    {
+        ListOfSpawnedEnemies.Remove(Enemy);
     }
 }
